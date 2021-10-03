@@ -1,0 +1,9 @@
+Resources:
+  backend:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/app.bootstrapServer
+      CodeUri: /Users/0s/Desktop/Toan/TodoList/backend
+      Runtime: nodejs14.x
+      Environment:
+        Variables: {}
