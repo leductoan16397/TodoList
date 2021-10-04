@@ -5,9 +5,9 @@ import { eventContext } from 'aws-serverless-express/middleware';
 import { NestFactory, NestApplication } from '@nestjs/core';
 import { ExpressAdapter } from '@nestjs/platform-express';
 import { AppModule } from './app.module';
-
+import * as express from 'express';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const express = require('express');
+// const express = require('express');
 
 const binaryMimeTypes: string[] = [];
 
