@@ -1,0 +1,17 @@
+.todoapp{
+    min-width: 70%;
+    border: 1px solid green;
+    border-radius: 1rem;
+}
+
+/* .todoapp-content{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    column-gap: 1rem;
+} */
+
+.todoapp-content{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}

@@ -1,0 +1,9 @@
+.todolist {
+  min-width: 30%;
+  border: 1px solid brown;
+  border-radius: 1rem;
+}
+
+.header {
+  border-bottom: 1px solid black;
+}
