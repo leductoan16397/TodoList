@@ -6,6 +6,8 @@ import { NestFactory, NestApplication } from '@nestjs/core';
 import { ExpressAdapter } from '@nestjs/platform-express';
 import { AppModule } from './app.module';
 import * as express from 'express';
+// import compression from 'compression';
+// import bodyParser from 'body-parser';
 
 const binaryMimeTypes: string[] = [];
 
@@ -21,6 +23,7 @@ export async function bootstrapServer(): Promise<IBootstrapServer> {
     new ExpressAdapter(expressApp),
   );
   app.use(eventContext());
+  app.enableCors();
   await app.init();
   const intance = createServer(expressApp, undefined, binaryMimeTypes);
 

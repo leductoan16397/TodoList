@@ -1,8 +1,9 @@
 service:
-  name: nest-serverless-lambda-demo
+  name: todolist-backend
 
 plugins:
   - "@hewmen/serverless-plugin-typescript"
+  # - serverless-plugin-typescript
   - serverless-plugin-optimize
   - serverless-offline
   - serverless-plugin-warmup
@@ -19,9 +20,10 @@ provider:
   lambdaHashingVersion: 20201221
   stage: dev
   region: ap-southeast-1
+  profile: toanle
 
 functions:
-  hello:
+  handler:
     handler: src/lambda.handler
     memorySize: 256
     timeout: 10

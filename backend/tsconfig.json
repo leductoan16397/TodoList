@@ -8,7 +8,7 @@
     "allowSyntheticDefaultImports": true,
     "target": "ES2018",
     "sourceMap": true,
-    "outDir": "./dist",
+    // "outDir": "./dist",
     "baseUrl": "./",
     "skipLibCheck": true,
     "strictNullChecks": false,
@@ -16,7 +16,12 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
     "noLib": false,
-    "rootDir": "src"
+    "preserveConstEnums": true,
+    "outDir": ".build",
+    "moduleResolution": "Node",
+    "lib": [
+      "ES2018"
+    ],
   },
   "exclude": [
     "node_modules",
