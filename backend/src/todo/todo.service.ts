@@ -17,31 +17,39 @@ const dynamoDB = new AWS.DynamoDB.DocumentClient();
 @Injectable()
 export class TodoService {
   async create(createTodoDto: any): Promise<any> {
-    const newTodo = {
-      id: uuidV4(),
-      todoName: createTodoDto.todoName,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-    };
     try {
+      const newTodo = {
+        id: uuidV4(),
+        todoName: createTodoDto.todoName,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      };
       await dynamoDB
         .put({
           TableName: process.env.TODO_TABLE_NAME || 'todos',
           Item: newTodo,
         })
         .promise();
+      return newTodo;
     } catch (error) {
       throw new InternalServerErrorException(error);
     }
-    return newTodo;
   }
 
   async findAll(): Promise<any> {
-    return { findall: true };
+    try {
+      const todos = await dynamoDB
+        .scan({
+          TableName: process.env.TODO_TABLE_NAME || 'todos',
+        })
+        .promise();
+      return todos;
+    } catch (error) {
+      throw new InternalServerErrorException(error);
+    }
   }
 
   async findOne(id: string): Promise<any> {
-    let todo;
     try {
       const result = await dynamoDB
         .get({
@@ -49,49 +57,44 @@ export class TodoService {
           Key: { id },
         })
         .promise();
-      todo = result.Item;
+      return result.Item;
     } catch (error) {
       throw new InternalServerErrorException(error);
     }
-    return todo;
   }
 
   async update(id: string, updateTodoDto: any): Promise<any> {
-    let todo;
     try {
       const result = await dynamoDB
         .update({
           TableName: process.env.TODO_TABLE_NAME || 'todos',
           Key: { id },
-          UpdateExpression: 'set todoName = :n, updatedAt = :update ',
+          UpdateExpression: 'set todoName = :t, updatedAt = :u',
           ExpressionAttributeValues: {
-            ':n': updateTodoDto.name,
-            ':update': new Date().toISOString(),
+            ':t': updateTodoDto.todoName,
+            ':u': new Date().toISOString(),
           },
-          ReturnValues: 'UPDATED_NEW',
+          ReturnValues: 'ALL_NEW',
         })
         .promise();
-      todo = result;
+      return result.Attributes;
     } catch (error) {
       throw new InternalServerErrorException(error);
     }
-    return todo;
   }
 
   async remove(id: string) {
-    let todo;
     try {
-      const result = await dynamoDB
+      await dynamoDB
         .delete({
           TableName: process.env.TODO_TABLE_NAME || 'todos',
           Key: { id },
         })
         .promise();
-      todo = result;
+      return { deleteStatus: 'done' };
     } catch (error) {
       throw new InternalServerErrorException(error);
     }
-    return todo;
   }
 }
 // export class TodoService {
