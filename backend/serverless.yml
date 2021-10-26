@@ -1,12 +1,11 @@
-service: todolist-backend-dymanoDB
+service: todolist-dymanodb
 
 plugins:
-  # - "@hewmen/serverless-plugin-typescript"
-  # - serverless-plugin-typescript
   - serverless-plugin-optimize
   - serverless-offline
   - serverless-plugin-warmup
   - serverless-plugin-scripts
+  - serverless-dotenv-plugin
 
 custom:
   # Enable warmup on all functions (only for production and staging)
@@ -25,11 +24,13 @@ provider:
   runtime: nodejs14.x
   lambdaHashingVersion: 20201221
   stage: ${opt:stage, 'dev'}
-  region: ap-southeast-1
-  profile: toanle
+  region:  ${env:REGION, 'ap-southeast-1'}
+  profile: ${env:PROFILE, 'toanle'}
   environment:
     TODO_TABLE_NAME: ${self:custom.TodosTable.name}
-    SLS_DEBUG: '*'
+    ACCESSKEYID: ${env:ACCESSKEYID}
+    SECRETACCESSKEY: ${env:SECRETACCESSKEY}
+    SLS_DEBUG: "*"
   iamRoleStatements:
     - ${file(iam/TodosTableIAM.yml):TodosTableIAM}
 

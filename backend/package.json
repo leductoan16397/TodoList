@@ -46,7 +46,6 @@
     "winston-daily-rotate-file": "^4.5.5"
   },
   "devDependencies": {
-    "@hewmen/serverless-plugin-typescript": "^1.1.17",
     "@nestjs/cli": "^8.0.0",
     "@nestjs/schematics": "^8.0.0",
     "@nestjs/testing": "^8.0.0",
@@ -65,6 +64,7 @@
     "nodemon": "^2.0.13",
     "plugin": "^0.3.3",
     "prettier": "^2.4.1",
+    "serverless-dotenv-plugin": "^3.10.0",
     "serverless-offline": "^8.2.0",
     "serverless-plugin-optimize": "^4.2.1-rc.1",
     "serverless-plugin-scripts": "^1.0.2",
