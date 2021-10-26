@@ -1,0 +1,35 @@
+service:
+  name: todolist-backend-dynamoDB
+
+plugins:
+  - "@hewmen/serverless-plugin-typescript"
+  # - serverless-plugin-typescript
+  - serverless-plugin-optimize
+  - serverless-offline
+  - serverless-plugin-warmup
+
+custom:
+  # Enable warmup on all functions (only for production and staging)
+  warmup:
+    - production
+    - staging
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  lambdaHashingVersion: 20201221
+  stage: dev
+  region: ap-southeast-1
+  profile: toanle
+  environment:
+    SLS_DEBUG: '*'
+
+functions:
+  handler:
+    handler: src/lambda.handler
+    memorySize: 256
+    timeout: 10
+    events:
+      - http:
+          method: any
+          path: /{any+}
