@@ -6,27 +6,35 @@ import { UpdateTodoDto } from './dto/update-todo.dto';
 // import { Todo, TodoDocument } from './schemas/todo.schema';
 import * as AWS from 'aws-sdk';
 import { v4 as uuidV4 } from 'uuid';
-
-AWS.config.credentials = {
-  accessKeyId: 'AKIAXPPKD4UJTPPDWR2X',
-  secretAccessKey: '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',
-};
-
-const dynamoDB = new AWS.DynamoDB.DocumentClient();
+import { Todo } from './entity/todo.entity';
+import { ConfigService } from '../core/config/config.service';
+import { DocumentClient } from 'aws-sdk/clients/dynamodb';
 
 @Injectable()
 export class TodoService {
-  async create(createTodoDto: any): Promise<any> {
+  private _tableName: string;
+  private _dynamoDB: DocumentClient;
+  constructor(private readonly configService: ConfigService) {
+    this._tableName = configService.todoTableName;
+    AWS.config.credentials = {
+      accessKeyId: configService.accessKeyId,
+      secretAccessKey: configService.secretAccessKey,
+    };
+
+    this._dynamoDB = new AWS.DynamoDB.DocumentClient();
+  }
+
+  async create(createTodoDto: CreateTodoDto): Promise<any> {
     try {
-      const newTodo = {
+      const newTodo: Todo = {
         id: uuidV4(),
         todoName: createTodoDto.todoName,
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
       };
-      await dynamoDB
+      await this._dynamoDB
         .put({
-          TableName: process.env.TODO_TABLE_NAME || 'todos',
+          TableName: this._tableName,
           Item: newTodo,
         })
         .promise();
@@ -38,9 +46,9 @@ export class TodoService {
 
   async findAll(): Promise<any> {
     try {
-      const todos = await dynamoDB
+      const todos = await this._dynamoDB
         .scan({
-          TableName: process.env.TODO_TABLE_NAME || 'todos',
+          TableName: this._tableName,
         })
         .promise();
       return todos;
@@ -51,9 +59,9 @@ export class TodoService {
 
   async findOne(id: string): Promise<any> {
     try {
-      const result = await dynamoDB
+      const result = await this._dynamoDB
         .get({
-          TableName: process.env.TODO_TABLE_NAME || 'todos',
+          TableName: this._tableName,
           Key: { id },
         })
         .promise();
@@ -63,16 +71,20 @@ export class TodoService {
     }
   }
 
-  async update(id: string, updateTodoDto: any): Promise<any> {
+  async update(id: string, updateTodoDto: UpdateTodoDto): Promise<any> {
     try {
-      const result = await dynamoDB
+      const result = await this._dynamoDB
         .update({
-          TableName: process.env.TODO_TABLE_NAME || 'todos',
+          TableName: this._tableName,
           Key: { id },
-          UpdateExpression: 'set todoName = :t, updatedAt = :u',
-          ExpressionAttributeValues: {
-            ':t': updateTodoDto.todoName,
-            ':u': new Date().toISOString(),
+          // UpdateExpression: 'set todoName = :t, updatedAt = :u',
+          // ExpressionAttributeValues: {
+          //   ':t': updateTodoDto.todoName,
+          //   ':u': new Date().toISOString(),
+          // },
+          AttributeUpdates: {
+            todoName: { Value: updateTodoDto.todoName },
+            updatedAt: { Value: new Date().toISOString() },
           },
           ReturnValues: 'ALL_NEW',
         })
@@ -85,9 +97,9 @@ export class TodoService {
 
   async remove(id: string) {
     try {
-      await dynamoDB
+      await this._dynamoDB
         .delete({
-          TableName: process.env.TODO_TABLE_NAME || 'todos',
+          TableName: this._tableName,
           Key: { id },
         })
         .promise();
