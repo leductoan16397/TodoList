@@ -1,0 +1,16 @@
+{
+  "Auth": {
+    "region": "ap-southeast-1",
+    "userPoolId": "ap-southeast-1_ySMs5rOiL",
+    "userPoolWebClientId": "eid0lh6tnigcrn94jrq4eaoqj",
+    "mandatorySignIn": false,
+    "cookieStorage": {
+      "domain": "localhost",
+      "path": "/",
+      "expires": 365,
+      "secure": true
+    },
+    "redirectSignIn": "http://localhost:3003/",
+    "redirectSignOut": "http://localhost:3003/signin"
+  }
+}

@@ -1,4 +1,4 @@
-import { TodoContext } from 'contexts/TodoContext.jsx';
+import { TodoContext } from 'contexts/TodoContext';
 import React, { useContext } from 'react';
 import './Todoapp.css';
 import { TodoList } from './todolist';

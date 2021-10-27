@@ -1,6 +1,5 @@
-/* eslint-disable no-unused-vars */
-import { TodoContext } from 'contexts/TodoContext.jsx';
-import { FC, useContext } from 'react';
+import { TodoContext } from 'contexts/TodoContext';
+import React, { FC, useContext } from 'react';
 import { Todo } from 'types/todo.type';
 import './todo.css';
 

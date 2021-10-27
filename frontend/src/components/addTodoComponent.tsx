@@ -1,9 +1,11 @@
-import { TodoContext } from 'contexts/TodoContext.jsx';
-import { ChangeEvent, FC, useContext, useState } from 'react';
+import { TodoContext } from 'contexts/TodoContext';
+import { ChangeEvent, Dispatch, FC, SetStateAction, useContext, useState } from 'react';
 import { Todo } from 'types/todo.type';
 import { v4 as uuidv4 } from 'uuid';
 
-export const AddTodoComponent: FC<{ setAddFlag: any }> = ({ setAddFlag }) => {
+export const AddTodoComponent: FC<{ setAddFlag: Dispatch<SetStateAction<boolean>> }> = ({
+  setAddFlag,
+}) => {
   const { addTodo } = useContext(TodoContext);
   const [text, setText] = useState<string>('');
 
