@@ -1,7 +1,8 @@
-.todoapp{
-    min-width: 70%;
-    border: 1px solid green;
-    border-radius: 1rem;
+.todoapp {
+  min-width: 700px;
+  min-height: 700px;
+  border: 1px solid green;
+  border-radius: 1rem;
 }
 
 /* .todoapp-content{
@@ -9,9 +10,16 @@
     grid-template-columns: 1fr 1fr 1fr;
     column-gap: 1rem;
 } */
+.todoapp-title {
+  height: 50px;
+}
+.todoap-bottom {
+  height: 50px;
+}
 
-.todoapp-content{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
+.todoapp-content {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  height: 600px;
 }

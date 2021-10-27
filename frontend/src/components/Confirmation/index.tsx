@@ -1,9 +1,9 @@
 import React, { FC, SyntheticEvent, useState } from 'react';
-import { useInput, Toast } from 'utils';
 import { Auth } from 'aws-amplify';
 import { Button, CircularProgress, TextField, styled } from '@mui/material';
 
 import { Link, useHistory } from 'react-router-dom';
+import { useInput, Toast } from 'utils';
 
 const Field = styled(TextField)({
   margin: '10px 0',
@@ -14,24 +14,22 @@ const DLink = styled(Link)({
   textAlign: 'right',
 });
 
-export const SignIn: FC = () => {
+export const Confirmation: FC = () => {
   const [loading, setLoading] = useState(false);
 
   const history = useHistory();
 
   const { value: email, bind: bindEmail } = useInput('');
-  const { value: password, bind: bindPassword } = useInput('');
+  const { value: code, bind: bindCode } = useInput('');
 
   const handleSubmit = async (e: SyntheticEvent<Element, Event>): Promise<void> => {
     e.preventDefault();
     setLoading(true);
 
     try {
-      const user = await Auth.signIn(email, password);
-      console.log(user);
-
-      Toast('Success!!', 'Login Successfully', 'success');
-      history.push('/');
+      await Auth.confirmSignUp(email, code);
+      Toast('Success!!', 'Verified Successfully', 'success');
+      history.push('/signin');
     } catch (error: any) {
       Toast('Error!!', error.message, 'danger');
     }
@@ -47,14 +45,14 @@ export const SignIn: FC = () => {
       }}
       onSubmit={handleSubmit}
     >
-      <h1 style={{ fontSize: '22px', fontWeight: 800 }}> Sign in to an existing account</h1>
+      <h1 style={{ fontSize: '22px', fontWeight: 800 }}> Verify Your Account</h1>
       <Field label="Email" {...bindEmail} type="email" />
-      <Field label="Password" type="password" {...bindPassword} />
+      <Field label="Verification Code" {...bindCode} />
       <Button variant="contained" color="primary" size="large" type="submit" disabled={loading}>
         {loading && <CircularProgress size={20} style={{ marginRight: 20 }} />}
-        Login to Your Account
+        Verify your account
       </Button>
-      <DLink to="/signup">make a new account &rarr;</DLink>
+      <DLink to="/signup">make an account &rarr;</DLink>
     </form>
   );
 };
