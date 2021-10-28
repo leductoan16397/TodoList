@@ -1,33 +1,17 @@
-import React, { createElement, FC, useEffect, useState } from 'react';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import React, { createElement, FC, useContext, useEffect, useState } from 'react';
 import { Auth } from 'aws-amplify';
 import { Route, Redirect } from 'react-router-dom';
+import { AuthContext } from 'contexts/AuthContext';
 
 interface Props {
   component: FC;
 }
 
 export const ProtectedRoute: FC<Props> = ({ component }) => {
-  const [isAuthenticated, setLoggedIn] = useState(true);
-  useEffect(() => {
-    (async () => {
-      let user = null;
-
-      try {
-        user = await Auth.currentAuthenticatedUser();
-        if (user) {
-          setLoggedIn(true);
-        } else {
-          setLoggedIn(false);
-        }
-      } catch (e) {
-        setLoggedIn(false);
-      }
-    })();
-  });
+  const { isLoggedIn } = useContext(AuthContext);
 
   return (
-    <Route
-      render={() => (isAuthenticated ? createElement(component) : <Redirect to="/signin" />)}
-    />
+    <Route render={() => (isLoggedIn ? createElement(component) : <Redirect to="/signin" />)} />
   );
 };

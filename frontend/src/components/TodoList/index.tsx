@@ -1,10 +1,9 @@
 /* eslint-disable react/require-default-props */
 /* eslint-disable react/no-unused-prop-types */
+import { TodoComponent, AddTodoComponent } from 'components';
 import { FC, useState } from 'react';
 import { Todo } from 'types/todo.type';
-import { AddTodoComponent } from './addTodoComponent';
-import { TodoComponent } from './todo';
-import './todolist.css';
+import './index.css';
 
 interface TodoListProps {
   title: 'Todo' | 'In Progress' | 'Done';
@@ -16,7 +15,7 @@ export const TodoList: FC<TodoListProps> = ({ title, todos }) => {
 
   return (
     <div className="todolist">
-      <div className="header">{title}</div>
+      <div className="header text-center">{title}</div>
       <div className="todolistbody">
         {todos &&
           todos.map((todo, index) => (

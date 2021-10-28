@@ -1,5 +1,6 @@
 {
   "domain": "toantodolist.auth.ap-southeast-1.amazoncognito.com",
+  "scope": ["phone", "email", "profile", "openid", "aws.cognito.signin.user.admin"],
   "redirectSignIn": "http://localhost:3003/",
   "redirectSignOut": "http://localhost:3003/signin",
   "responseType": "token"

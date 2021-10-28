@@ -1,7 +1,7 @@
 import { TodoContext } from 'contexts/TodoContext';
 import React, { FC, useContext } from 'react';
 import { Todo } from 'types/todo.type';
-import './todo.css';
+import './index.css';
 
 interface TodoProps {
   type: 'Todo' | 'In Progress' | 'Done';

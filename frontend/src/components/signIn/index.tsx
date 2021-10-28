@@ -1,23 +1,12 @@
-import React, { FC, SyntheticEvent, useState } from 'react';
-import { useInput, Toast } from 'utils';
-import { Auth } from 'aws-amplify';
-import { Button, CircularProgress, TextField, styled } from '@mui/material';
-
-import { Link, useHistory } from 'react-router-dom';
-
-const Field = styled(TextField)({
-  margin: '10px 0',
-});
-
-const DLink = styled(Link)({
-  margin: '15px 0',
-  textAlign: 'right',
-});
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { FC, SyntheticEvent, useContext, useState } from 'react';
+import { DLink, Field, useInput } from 'utils';
+import { Button, CircularProgress } from '@mui/material';
+import { AuthContext } from 'contexts/AuthContext';
 
 export const SignIn: FC = () => {
   const [loading, setLoading] = useState(false);
-
-  const history = useHistory();
+  const { doSignIn } = useContext(AuthContext);
 
   const { value: email, bind: bindEmail } = useInput('');
   const { value: password, bind: bindPassword } = useInput('');
@@ -25,16 +14,7 @@ export const SignIn: FC = () => {
   const handleSubmit = async (e: SyntheticEvent<Element, Event>): Promise<void> => {
     e.preventDefault();
     setLoading(true);
-
-    try {
-      const user = await Auth.signIn(email, password);
-      console.log(user);
-
-      Toast('Success!!', 'Login Successfully', 'success');
-      history.push('/');
-    } catch (error: any) {
-      Toast('Error!!', error.message, 'danger');
-    }
+    await doSignIn(email, password);
     setLoading(false);
   };
 

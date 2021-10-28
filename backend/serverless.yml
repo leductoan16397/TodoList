@@ -1,17 +1,12 @@
 service: todolist-dymanodb
 
 plugins:
-  - serverless-plugin-optimize
   - serverless-offline
-  - serverless-plugin-warmup
   - serverless-plugin-scripts
   - serverless-dotenv-plugin
 
 custom:
   # Enable warmup on all functions (only for production and staging)
-  warmup:
-    - production
-    - staging
   scripts:
     hooks:
       deploy:createDeploymentArtifacts: yarn run build

@@ -1,22 +1,12 @@
-import React, { FC, SyntheticEvent, useState } from 'react';
-import { Auth } from 'aws-amplify';
-import { Button, CircularProgress, TextField, styled } from '@mui/material';
-import { Link, useHistory } from 'react-router-dom';
-import { Toast, useInput } from 'utils';
-
-const Field = styled(TextField)({
-  margin: '10px 0',
-});
-
-const DLink = styled(Link)({
-  margin: '15px 0',
-  textAlign: 'right',
-});
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { FC, SyntheticEvent, useContext, useState } from 'react';
+import { Button, CircularProgress } from '@mui/material';
+import { DLink, Field, Toast, useInput } from 'utils';
+import { AuthContext } from 'contexts/AuthContext';
 
 export const Signup: FC = () => {
   const [loading, setLoading] = useState(false);
-
-  const history = useHistory();
+  const { doSignUp } = useContext(AuthContext);
 
   const { value: name, bind: bindName } = useInput('');
   const { value: email, bind: bindEmail } = useInput('');
@@ -32,24 +22,7 @@ export const Signup: FC = () => {
       Toast('Error!!', 'Password and Confirm Password should be same', 'danger');
       return;
     }
-    try {
-      const rs = await Auth.signUp({
-        username: email,
-        password: confirmPassword,
-        attributes: {
-          email,
-          name,
-          phone_number: phone,
-        },
-      });
-      console.log(rs);
-
-      Toast('Success!!', 'Signup was successful', 'success');
-      history.push('/confirmation');
-    } catch (error: any) {
-      console.error(error);
-      Toast('Error!!', error.message, 'danger');
-    }
+    await doSignUp({ email, confirmPassword, name, phone });
     setLoading(false);
   };
 
