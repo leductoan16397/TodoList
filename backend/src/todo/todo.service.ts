@@ -24,10 +24,12 @@ export class TodoService {
     this._dynamoDB = new AWS.DynamoDB.DocumentClient();
   }
 
-  async create(createTodoDto: CreateTodoDto): Promise<any> {
+  async create(createTodoDto: CreateTodoDto, username: string): Promise<any> {
     try {
       const newTodo: Todo = {
         id: uuidV4(),
+        username,
+        status: 'todo',
         todoName: createTodoDto.todoName,
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
@@ -44,11 +46,17 @@ export class TodoService {
     }
   }
 
-  async findAll(): Promise<any> {
+  async findAll(username: string): Promise<any> {
     try {
       const todos = await this._dynamoDB
         .scan({
           TableName: this._tableName,
+          ScanFilter: {
+            username: {
+              AttributeValueList: [username],
+              ComparisonOperator: 'EQ',
+            },
+          },
         })
         .promise();
       return todos;
@@ -71,20 +79,19 @@ export class TodoService {
     }
   }
 
-  async update(id: string, updateTodoDto: UpdateTodoDto): Promise<any> {
+  async update(
+    id: string,
+    username: string,
+    updateTodoDto: UpdateTodoDto,
+  ): Promise<any> {
     try {
       const result = await this._dynamoDB
         .update({
           TableName: this._tableName,
-          Key: { id },
-          // UpdateExpression: 'set todoName = :t, updatedAt = :u',
-          // ExpressionAttributeValues: {
-          //   ':t': updateTodoDto.todoName,
-          //   ':u': new Date().toISOString(),
-          // },
+          Key: { id, username },
           AttributeUpdates: {
-            todoName: { Value: updateTodoDto.todoName },
             updatedAt: { Value: new Date().toISOString() },
+            status: { Value: updateTodoDto.status },
           },
           ReturnValues: 'ALL_NEW',
         })
@@ -95,12 +102,12 @@ export class TodoService {
     }
   }
 
-  async remove(id: string) {
+  async remove(id: string, username: string) {
     try {
       await this._dynamoDB
         .delete({
           TableName: this._tableName,
-          Key: { id },
+          Key: { id, username },
         })
         .promise();
       return { deleteStatus: 'done' };

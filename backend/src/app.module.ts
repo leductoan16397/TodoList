@@ -5,20 +5,22 @@ import { AppService } from './app.service';
 import { TodoModule } from './todo/todo.module';
 import { CoreModule } from './core/core.module';
 import { ConfigService } from './core/config/config.service';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
     CoreModule,
-    MongooseModule.forRootAsync({
-      imports: [CoreModule],
-      useFactory: async (configService: ConfigService) => ({
-        uri: configService.mongoUrl,
-        useNewUrlParser: true,
-        // useFindAndModify: false,
-        // useCreateIndex: true,
-      }),
-      inject: [ConfigService],
-    }),
+    // AuthModule,
+    // MongooseModule.forRootAsync({
+    //   imports: [CoreModule],
+    //   useFactory: async (configService: ConfigService) => ({
+    //     uri: configService.mongoUrl,
+    //     useNewUrlParser: true,
+    //     // useFindAndModify: false,
+    //     // useCreateIndex: true,
+    //   }),
+    //   inject: [ConfigService],
+    // }),
     TodoModule,
   ],
   controllers: [AppController],

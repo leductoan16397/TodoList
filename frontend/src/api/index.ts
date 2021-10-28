@@ -1,10 +1,12 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from 'axios';
 import { TODO_URL } from './path';
 
 const authHeaders = (token: string): any => {
   return {
     headers: {
-      Authorization: token,
+      Authorization: `bearer ${token}`,
     },
   };
 };
@@ -16,7 +18,7 @@ export const addNewTodo = (body: any, token: string): any => {
 };
 
 export const findOne = (id: string, token: string): any => {
-  return axios.get(`${TODO_URL}/${id}`, authHeaders(token));
+  return axios.get(`${TODO_URL} /${id}`, authHeaders(token));
 };
 
 export const updateTodo = (id: string, body: any, token: string): any => {

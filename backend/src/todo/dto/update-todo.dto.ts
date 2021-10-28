@@ -1,4 +1,8 @@
-import { PartialType } from '@nestjs/mapped-types';
-import { CreateTodoDto } from './create-todo.dto';
+import { IsIn, IsNotEmpty, IsString } from 'class-validator';
 
-export class UpdateTodoDto extends CreateTodoDto {}
+export class UpdateTodoDto {
+  @IsString()
+  @IsNotEmpty()
+  @IsIn(['todo', 'inProgress', 'done'])
+  status: string;
+}

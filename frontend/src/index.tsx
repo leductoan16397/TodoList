@@ -1,7 +1,7 @@
+/* eslint-disable no-console */
 import React, { FC, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import { TodoContextProvider } from 'contexts/TodoContext';
 import ReactNotification from 'react-notifications-component';
 import 'react-notifications-component/dist/theme.css';
 import Amplify, { Auth, Hub } from 'aws-amplify';
@@ -37,9 +37,7 @@ const Root: FC = () => {
   return (
     <Router history={customHistory}>
       <AuthContextProvider>
-        <TodoContextProvider>
-          <AppRootWithRouter />
-        </TodoContextProvider>
+        <AppRootWithRouter />
       </AuthContextProvider>
     </Router>
   );

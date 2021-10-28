@@ -25,6 +25,9 @@ provider:
     TODO_TABLE_NAME: ${self:custom.TodosTable.name}
     ACCESSKEYID: ${env:ACCESSKEYID}
     SECRETACCESSKEY: ${env:SECRETACCESSKEY}
+    COGNITO_REGION: ${env:COGNITO_REGION}
+    COGNITO_USER_POOL_ID: ${env:COGNITO_USER_POOL_ID}
+    COGNITO_CLIENT_ID: ${env:COGNITO_CLIENT_ID}
     SLS_DEBUG: "*"
   iamRoleStatements:
     - ${file(iam/TodosTableIAM.yml):TodosTableIAM}
