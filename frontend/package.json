@@ -15,6 +15,7 @@
     "add": "^2.0.6",
     "aws-amplify": "^4.3.3",
     "axios": "^0.23.0",
+    "lodash": "^4.17.21",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-hook-form": "^7.18.0",
@@ -31,7 +32,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "deploy": "aws s3 sync build/ s3://toantodolist.com --profile toanleduc16397",
+    "deploy": "aws s3 sync build/ s3://toantodolist.com --profile toanle",
     "build:deploy": "yarn build && sls deploy",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix"
@@ -53,6 +54,7 @@
   },
   "devDependencies": {
     "@types/jest": "^27.0.2",
+    "@types/lodash": "^4.14.176",
     "@types/node": "^16.10.3",
     "@types/react": "^17.0.27",
     "@types/react-dom": "^17.0.9",

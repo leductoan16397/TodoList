@@ -6,6 +6,7 @@ export type Todo = {
   title: string;
   createdAt: Date;
   updateAt: Date;
+  todoName: string;
 };
 
 export interface Todos {

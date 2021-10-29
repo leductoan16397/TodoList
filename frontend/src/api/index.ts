@@ -6,7 +6,7 @@ import { TODO_URL } from './path';
 const authHeaders = (token: string): any => {
   return {
     headers: {
-      Authorization: `bearer ${token}`,
+      Authorization: token,
     },
   };
 };

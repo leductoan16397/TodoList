@@ -21,9 +21,7 @@ export const AuthContextProvider = ({ children }) => {
         const user = await Auth.currentAuthenticatedUser();
         const currentSession = await Auth.currentSession();
         const accessToken = currentSession.getAccessToken();
-        const idToken = currentSession.getIdToken();
-        // const jwt = accessToken.getJwtToken();
-        const jwt = idToken.getJwtToken();
+        const jwt = accessToken.getJwtToken();
         // const refreshToken = currentSession.getRefreshToken().getToken();
         setlogedUserToken(jwt);
         if (user) {

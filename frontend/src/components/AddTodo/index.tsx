@@ -10,20 +10,16 @@ export const AddTodoComponent: FC<{ setAddFlag: Dispatch<SetStateAction<boolean>
 }) => {
   const { addTodo } = useContext(TodoContext);
   const [text, setText] = useState<string>('');
+  const [adding, setAdding] = useState(false);
 
   const addTodoHandle = async (): Promise<void> => {
-    // const todo: Todo = {
-    //   id: uuidv4(),
-    //   title: text,
-    //   createdAt: new Date(),
-    //   updateAt: new Date(),
-    // };
-    // addTodo(todo);
     if (text.trim().length === 0) {
       Toast('Error!!', 'Todo name cannot be empty!!!!!', 'danger');
       return;
     }
+    setAdding(true);
     await addTodo({ todoName: text });
+    setAdding(false);
     setAddFlag(false);
     setText('');
   };
@@ -36,7 +32,7 @@ export const AddTodoComponent: FC<{ setAddFlag: Dispatch<SetStateAction<boolean>
         placeholder="Todo name"
         onInput={(e: ChangeEvent<HTMLInputElement>) => setText(e.target.value)}
       />
-      <button type="button" className="saveBtn" onClick={() => addTodoHandle()}>
+      <button type="button" disabled={adding} className="saveBtn" onClick={() => addTodoHandle()}>
         Save
       </button>
     </div>

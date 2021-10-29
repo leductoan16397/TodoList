@@ -6,7 +6,15 @@ export class AppService {
     return { message: 'Hello World!' };
   }
 
-  getBonjour(): string {
-    return 'Bonjour le Monde! Nest ';
+  getStart(): any {
+    return {
+      api: {
+        hello: '/hello',
+        addTodo: 'POST /todo',
+        getUserTodo: 'GET /todo',
+        updateTodo: 'PUT /todo/:id',
+        removeTodo: 'DELETE /todo/:id',
+      },
+    };
   }
 }

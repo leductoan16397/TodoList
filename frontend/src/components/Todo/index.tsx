@@ -1,5 +1,5 @@
 import { TodoContext } from 'contexts/TodoContext';
-import React, { FC, useContext } from 'react';
+import React, { FC, useContext, useState } from 'react';
 import { Todo } from 'types/todo.type';
 import './index.css';
 
@@ -9,13 +9,32 @@ interface TodoProps {
 }
 
 export const TodoComponent: FC<TodoProps> = ({ type, todo }) => {
-  const { updateTodoStatus, removeTodo } = useContext(TodoContext);
+  const { todoLoaded, updateTodoStatus, removeTodo } = useContext(TodoContext);
+
+  const [fetching, setFetching] = useState(false);
+
+  const handleUpdate = async (status: 'todo' | 'inProgress' | 'done'): Promise<void> => {
+    setFetching(true);
+    await updateTodoStatus(todo.id, status);
+    setFetching(false);
+  };
+
+  const handleRemove = async (): Promise<void> => {
+    setFetching(true);
+    await removeTodo(todo.id);
+    setFetching(false);
+  };
+
   return (
     <div className="todo">
-      <span>{todo.title}</span>
+      <span>{todo.todoName}</span>
       {(type === 'Todo' || type === 'Done') && (
         <>
-          <button type="button" onClick={() => updateTodoStatus(todo.id, 'inProgressF')}>
+          <button
+            disabled={fetching || !todoLoaded}
+            type="button"
+            onClick={() => handleUpdate('inProgress')}
+          >
             In Progerss
           </button>
         </>
@@ -23,16 +42,24 @@ export const TodoComponent: FC<TodoProps> = ({ type, todo }) => {
 
       {type === 'In Progress' && (
         <>
-          <button type="button" onClick={() => updateTodoStatus(todo.id, 'todo')}>
+          <button
+            disabled={fetching || !todoLoaded}
+            type="button"
+            onClick={() => handleUpdate('todo')}
+          >
             Todo
           </button>
-          <button type="button" onClick={() => updateTodoStatus(todo.id, 'done')}>
+          <button
+            type="button"
+            disabled={fetching || !todoLoaded}
+            onClick={() => handleUpdate('done')}
+          >
             Done
           </button>
         </>
       )}
 
-      <button type="button" onClick={() => removeTodo(todo.id)}>
+      <button type="button" disabled={fetching || !todoLoaded} onClick={() => handleRemove()}>
         Remove
       </button>
     </div>

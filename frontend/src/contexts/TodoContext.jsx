@@ -16,10 +16,10 @@ export const TodoContextProvider = ({ children }) => {
   const { logedUserToken } = useContext(AuthContext);
   const fetchData = async () => {
     try {
+      setTodoLoaded(false);
       const rs = await getAllTodo(logedUserToken);
-      console.log(rs);
       setTodoLoaded(true);
-      setTodos([...rs.data]);
+      setTodos(rs.data);
     } catch (error) {
       setTodoLoaded(true);
       Toast('Error!!', error.message, 'danger');
@@ -33,8 +33,10 @@ export const TodoContextProvider = ({ children }) => {
   const addTodo = async (todo) => {
     try {
       await addNewTodo(todo, logedUserToken);
+      Toast('Success!!', 'Add Todo Successfully', 'success');
       fetchData();
     } catch (error) {
+      Toast('Error!!', error.message, 'danger');
       fetchData();
     }
   };
@@ -42,8 +44,10 @@ export const TodoContextProvider = ({ children }) => {
   const updateTodoStatus = async (id, status) => {
     try {
       await updateTodo(id, { status }, logedUserToken);
+      Toast('Success!!', 'Move Todo Successfully', 'success');
       fetchData();
     } catch (error) {
+      Toast('Error!!', error.message, 'danger');
       fetchData();
     }
   };
@@ -51,8 +55,10 @@ export const TodoContextProvider = ({ children }) => {
   const removeTodo = async (id) => {
     try {
       await deleteTodo(id, logedUserToken);
+      Toast('Success!!', 'Delete Todo Successfully', 'success');
       fetchData();
     } catch (error) {
+      Toast('Error!!', error.message, 'danger');
       fetchData();
     }
   };

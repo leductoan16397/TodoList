@@ -10,6 +10,8 @@ import { ValidationPipe } from '@nestjs/common';
 // import compression from 'compression';
 // import bodyParser from 'body-parser';
 import { ExceptionFactory } from './core/exception/exceptionFactory';
+import { json, urlencoded } from 'express';
+import * as cookieParser from 'cookie-parser';
 
 const binaryMimeTypes: string[] = [];
 
@@ -26,6 +28,9 @@ export async function bootstrapServer(): Promise<IBootstrapServer> {
   );
   app.use(eventContext());
   app.enableCors();
+  app.use(cookieParser());
+  app.use(json({ limit: '50mb' }));
+  app.use(urlencoded({ limit: '50mb', extended: true }));
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true,

@@ -6,7 +6,6 @@ import {
   HttpExceptionFilter,
   NotFoundExceptionFilter,
 } from './exception/http-error.filter';
-import { LoggingInterceptor } from './interceptors/logging.interceptor';
 
 @Module({
   providers: [

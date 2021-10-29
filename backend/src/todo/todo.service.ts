@@ -59,7 +59,11 @@ export class TodoService {
           },
         })
         .promise();
-      return todos;
+      const rs = { todo: [], inProgress: [], done: [] };
+      todos.Items.forEach((item) => {
+        rs[item.status].push(item);
+      });
+      return rs;
     } catch (error) {
       throw new InternalServerErrorException(error);
     }
@@ -80,15 +84,23 @@ export class TodoService {
   }
 
   async update(
-    id: string,
-    username: string,
+    todoId: string,
+    user_name: string,
     updateTodoDto: UpdateTodoDto,
   ): Promise<any> {
     try {
       const result = await this._dynamoDB
         .update({
           TableName: this._tableName,
-          Key: { id, username },
+          Key: {
+            id: todoId,
+          },
+          Expected: {
+            username: {
+              Value: user_name,
+              ComparisonOperator: 'EQ',
+            },
+          },
           AttributeUpdates: {
             updatedAt: { Value: new Date().toISOString() },
             status: { Value: updateTodoDto.status },
@@ -102,12 +114,18 @@ export class TodoService {
     }
   }
 
-  async remove(id: string, username: string) {
+  async remove(todoId: string, user_name: string) {
     try {
       await this._dynamoDB
         .delete({
           TableName: this._tableName,
-          Key: { id, username },
+          Key: { id: todoId },
+          Expected: {
+            username: {
+              Value: user_name,
+              ComparisonOperator: 'EQ',
+            },
+          },
         })
         .promise();
       return { deleteStatus: 'done' };
@@ -116,38 +134,3 @@ export class TodoService {
     }
   }
 }
-// export class TodoService {
-//   constructor(@InjectModel(Todo.name) private todoModel: Model<TodoDocument>) {}
-
-//   async create(createTodoDto: CreateTodoDto): Promise<TodoDocument> {
-//     const newTodo = new this.todoModel(createTodoDto);
-//     return await newTodo.save();
-//   }
-
-//   async findAll(): Promise<TodoDocument[]> {
-//     const todos: TodoDocument[] = await this.todoModel.find();
-//     return todos;
-//   }
-
-//   async findOne(id: number): Promise<TodoDocument> {
-//     const todo: TodoDocument = await this.todoModel.findById(id);
-//     return todo;
-//   }
-
-//   async update(
-//     id: number,
-//     updateTodoDto: UpdateTodoDto,
-//   ): Promise<TodoDocument> {
-//     const todo: TodoDocument = await this.todoModel.findByIdAndUpdate(
-//       id,
-//       { updateTodoDto },
-//       { new: true },
-//     );
-//     return todo;
-//   }
-
-//   async remove(id: number) {
-//     const status = this.todoModel.deleteOne({ id });
-//     return status;
-//   }
-// }

@@ -17,22 +17,22 @@ const App: FC = () => {
       <div className="App-body">
         <Card style={{ width: 1200, margin: '100px auto', padding: '40px' }}>
           {!fetching ? (
-            <TodoContextProvider>
-              <Switch>
-                <Route path="/signup">
-                  <Signup />
-                </Route>
-                <Route path="/signin">
-                  <SignIn />
-                </Route>
-                <Route path="/confirmation">
-                  <Confirmation />
-                </Route>
-                <Route path="/">
+            <Switch>
+              <Route path="/signup">
+                <Signup />
+              </Route>
+              <Route path="/signin">
+                <SignIn />
+              </Route>
+              <Route path="/confirmation">
+                <Confirmation />
+              </Route>
+              <Route path="/">
+                <TodoContextProvider>
                   <ProtectedRoute component={TodoApp} />
-                </Route>
-              </Switch>
-            </TodoContextProvider>
+                </TodoContextProvider>
+              </Route>
+            </Switch>
           ) : (
             <CircularProgress size={20} style={{ marginRight: 20 }} />
           )}
