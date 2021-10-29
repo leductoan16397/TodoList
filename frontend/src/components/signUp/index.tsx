@@ -10,7 +10,6 @@ export const Signup: FC = () => {
 
   const { value: name, bind: bindName } = useInput('');
   const { value: email, bind: bindEmail } = useInput('');
-  const { value: phone, bind: bindPhone } = useInput('');
   const { value: password, bind: bindPassword } = useInput('');
   const { value: confirmPassword, bind: bindConfirmPassword } = useInput('');
 
@@ -20,9 +19,10 @@ export const Signup: FC = () => {
 
     if (password !== confirmPassword) {
       Toast('Error!!', 'Password and Confirm Password should be same', 'danger');
+      setLoading(false);
       return;
     }
-    await doSignUp({ email, confirmPassword, name, phone });
+    await doSignUp({ email, confirmPassword, name });
     setLoading(false);
   };
 
@@ -38,7 +38,6 @@ export const Signup: FC = () => {
       <h1 style={{ fontSize: '22px', fontWeight: 800 }}> New Account Registration</h1>
       <Field label="Name" {...bindName} />
       <Field label="Email" {...bindEmail} type="email" />
-      <Field label="Phone" {...bindPhone} type="tel" />
       <Field label="Password" type="password" {...bindPassword} />
       <Field label="Confirm Password" type="password" {...bindConfirmPassword} />
       <Button variant="contained" color="primary" size="large" type="submit" disabled={loading}>

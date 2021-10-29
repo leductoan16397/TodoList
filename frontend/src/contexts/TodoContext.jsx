@@ -17,7 +17,16 @@ export const TodoContextProvider = ({ children }) => {
   const fetchData = async () => {
     try {
       setTodoLoaded(false);
-      const rs = await getAllTodo(logedUserToken);
+      let rs = {
+        data: {
+          todo: [],
+          inProgress: [],
+          done: [],
+        },
+      };
+      if (logedUserToken) {
+        rs = await getAllTodo(logedUserToken);
+      }
       setTodoLoaded(true);
       setTodos(rs.data);
     } catch (error) {
@@ -28,7 +37,7 @@ export const TodoContextProvider = ({ children }) => {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [logedUserToken]);
 
   const addTodo = async (todo) => {
     try {

@@ -32,7 +32,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "deploy": "aws s3 sync build/ s3://toantodolist.com --profile toanle",
+    "deploy": "aws s3 sync build/ s3://toantodolist.com --profile toanleduc16397",
     "build:deploy": "yarn build && sls deploy",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix"

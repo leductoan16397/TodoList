@@ -15,25 +15,27 @@ export const AuthContextProvider = ({ children }) => {
   const [fetching, setFeching] = useState(true);
   const history = useHistory();
 
-  useEffect(() => {
-    async function fetchUser() {
-      try {
-        const user = await Auth.currentAuthenticatedUser();
-        const currentSession = await Auth.currentSession();
-        const accessToken = currentSession.getAccessToken();
-        const jwt = accessToken.getJwtToken();
-        // const refreshToken = currentSession.getRefreshToken().getToken();
-        setlogedUserToken(jwt);
-        if (user) {
-          setLoggedIn(true);
-        } else {
-          setLoggedIn(false);
-        }
-        setFeching(false);
-      } catch (error) {
-        setFeching(false);
+  async function fetchUser() {
+    try {
+      const user = await Auth.currentAuthenticatedUser();
+      const currentSession = await Auth.currentSession();
+      const accessToken = currentSession.getAccessToken();
+      const jwt = accessToken.getJwtToken();
+      // const refreshToken = currentSession.getRefreshToken().getToken();
+      setlogedUserToken(jwt);
+      if (user) {
+        setLoggedIn(true);
+      } else {
+        setLoggedIn(false);
       }
+      setFeching(false);
+    } catch (error) {
+      console.error(error);
+      setFeching(false);
     }
+  }
+
+  useEffect(() => {
     fetchUser();
   }, []);
 
@@ -43,7 +45,9 @@ export const AuthContextProvider = ({ children }) => {
       setLoggedIn(true);
       Toast('Success!!', 'Login Successfully', 'success');
       history.push('/');
+      fetchUser();
     } catch (error) {
+      console.error(error);
       Toast('Error!!', error.message, 'danger');
     }
   };
@@ -53,8 +57,10 @@ export const AuthContextProvider = ({ children }) => {
       await Auth.signOut();
       setLoggedIn(false);
       Toast('Success!!', 'Logged out successfully!', 'success');
+      setlogedUserToken(undefined);
       history.push('/signin');
     } catch (error) {
+      console.error(error);
       Toast('Error!!', error.message, 'danger');
     }
   };
@@ -65,6 +71,7 @@ export const AuthContextProvider = ({ children }) => {
       Toast('Success!!', 'Verified Successfully', 'success');
       history.push('/signin');
     } catch (error) {
+      console.error(error);
       Toast('Error!!', error.message, 'danger');
     }
   };
@@ -80,10 +87,10 @@ export const AuthContextProvider = ({ children }) => {
           phone_number: phone,
         },
       });
-
       Toast('Success!!', 'Signup was successful', 'success');
       history.push('/confirmation');
     } catch (error) {
+      console.error(error);
       Toast('Error!!', error.message, 'danger');
     }
   };
