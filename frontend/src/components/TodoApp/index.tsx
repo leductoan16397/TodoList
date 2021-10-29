@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { TodoContext } from 'contexts/TodoContext';
 import React, { useContext } from 'react';
 import { Button } from '@mui/material';

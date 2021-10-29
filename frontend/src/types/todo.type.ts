@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars */
-
 export type Todo = {
   auth?: string;
   id: string;

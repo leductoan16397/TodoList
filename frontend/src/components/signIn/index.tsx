@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC, SyntheticEvent, useContext, useState } from 'react';
 import { DLink, Field, useInput } from 'utils';
 import { Button, CircularProgress } from '@mui/material';

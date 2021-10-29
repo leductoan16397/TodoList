@@ -1,5 +1,3 @@
-/* eslint-disable react/require-default-props */
-/* eslint-disable react/no-unused-prop-types */
 import { TodoComponent, AddTodoComponent } from 'components';
 import { FC, useState } from 'react';
 import { Todo } from 'types/todo.type';

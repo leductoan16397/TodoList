@@ -1,6 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { createElement, FC, useContext, useEffect, useState } from 'react';
-import { Auth } from 'aws-amplify';
+import { createElement, FC, useContext } from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { AuthContext } from 'contexts/AuthContext';
 

@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { Auth } from 'aws-amplify';
@@ -21,7 +21,6 @@ export const AuthContextProvider = ({ children }) => {
       const currentSession = await Auth.currentSession();
       const accessToken = currentSession.getAccessToken();
       const jwt = accessToken.getJwtToken();
-      // const refreshToken = currentSession.getRefreshToken().getToken();
       setlogedUserToken(jwt);
       if (user) {
         setLoggedIn(true);

@@ -1,8 +1,6 @@
 import { TodoContext } from 'contexts/TodoContext';
 import { ChangeEvent, Dispatch, FC, SetStateAction, useContext, useState } from 'react';
 import { Toast } from 'utils';
-// import { Todo } from 'types/todo.type';
-// import { v4 as uuidv4 } from 'uuid';
 import './index.css';
 
 export const AddTodoComponent: FC<{ setAddFlag: Dispatch<SetStateAction<boolean>> }> = ({

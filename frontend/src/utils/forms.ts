@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { Dispatch, SetStateAction, ChangeEvent, useState } from 'react';
 import { TextField, styled } from '@mui/material';
 import { Link } from 'react-router-dom';
